@@ -27,7 +27,7 @@ var tertiaryText = function(titleText, callback) {
     fullscreen: true
   });
   
-//  main.show();
+  main.show();
   
   var bg = new UI.Rect({position: new Vector2(0, 0), size: new Vector2(144, 168),  });
   var title = new UI.Text({position: new Vector2(3, 2), size: new Vector2(109, 22), font: 'gothic-18-bold', text: titleText ? titleText : "Text Input", color: "black", textAlign: "left" });
@@ -68,8 +68,7 @@ var tertiaryText = function(titleText, callback) {
 
   main.on('longClick', 'select', function(e) {
     if(callback) {
-      callback(input.text());
-      main.hide();
+      callback();
     }
   });
 

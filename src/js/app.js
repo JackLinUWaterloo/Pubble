@@ -55,7 +55,7 @@ var image2 = new UI.Image({
 
 screen1.add(box0);
 screen1.add(image2);
-screen1.show();
+//screen1.show();
 
 
 // this is for screen 2
@@ -65,7 +65,7 @@ var screen2 = new UI.Card ({
 function limitLength(text) {
    var maxChars = 3;
    if (text.length === maxChars) {
-     screen2.show();
+     //screen2.show();
      console.log('text');
    } else if (text.length > maxChars) {
     console.log('Try again. Enter valid currency (3 letters max)');
@@ -74,6 +74,7 @@ function limitLength(text) {
 
 var printOutput = tertiaryText('Home Currency:', function(inputtedText) {
   //limitLength(inputtedText);
+  console.log(inputtedText);
 });
 
 var screen3 = new UI.Window();
@@ -108,7 +109,7 @@ var box3 = new UI.Text({
   position: new Vector2(0, 75),
   size: new Vector2(width/2, height/3),
   backgroundColor: 'white',
-  text: 'AVG $:',
+  text: 'PRICE:',
   color: 'black',
   textAlign: 'center',
   textOverflow: 'wrap',
@@ -152,7 +153,7 @@ screen3.add(box3);
 screen3.add(box4);
 screen3.add(box5);
 screen3.add(box6);
-screen3.show();
+//screen3.show();
 
 // next screen
 
@@ -188,7 +189,7 @@ var box3 = new UI.Text({
   position: new Vector2(0, 75),
   size: new Vector2(width/2, height/3),
   backgroundColor: 'white',
-  text: 'AVG $:',
+  text: 'PRICE:',
   color: 'black',
   textAlign: 'center',
   textOverflow: 'wrap',
@@ -232,7 +233,7 @@ screen4.add(box3);
 screen4.add(box4);
 screen4.add(box5);
 screen4.add(box6);
-screen4.show();
+//screen4.show();
 
 // proceeding screen
 
@@ -268,7 +269,7 @@ var box3 = new UI.Text({
   position: new Vector2(0, 75),
   size: new Vector2(width/2, height/3),
   backgroundColor: 'white',
-  text: 'AVG $:',
+  text: 'PRICE:',
   color: 'black',
   textAlign: 'center',
   textOverflow: 'wrap',
@@ -312,6 +313,36 @@ screen5.add(box3);
 screen5.add(box4);
 screen5.add(box5);
 screen5.add(box6);
-screen5.show();
+//screen5.show();
 
+screen1.show();
 
+setTimeout(function() {
+  tertiaryText('Home Currency:', function() {
+    screen3.show();
+//     if (inputtedText.value.length === 3) {
+//       console.log('HELLO?');
+//         screen3.show();
+//     }
+//     console.log(inputtedText);
+  });
+  screen1.hide();  
+}, 4000);
+
+//screen3.show();
+
+screen3.on('click','down',function(){
+  screen4.show();
+});
+
+screen4.on('click','down',function(){
+  screen5.show();
+});
+
+screen4.on('click', 'up', function(){
+  screen3.show();
+});
+
+screen5.on('click', 'up', function(){
+  screen4.show();
+});
