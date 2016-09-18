@@ -2,12 +2,15 @@
 
 // GETTING DATA FROM PHONE 
 
-var price1 = 0; // needs to be integer
-var price2 = 0;
-var price3 = 0;
-var rating1 = 0; // needs to be a float
-var rating2 = 0;
-var rating3 = 0;
+var price1 = 15; // needs to be integer
+var price2 = 25;
+var price3 = 20;
+var rating1 = 4.9; // needs to be a float
+var rating2 = 4.5;
+var rating3 = 4.0;
+var restaurant1 = "Kelsey's Bar and Grill";
+var restaurant2 = 'Cactus Club Cafe';
+var restaurant3 = 'Sushi Galore';
 
 var foreign_curr = ""; // needs to be in str, max len(3)
 
@@ -15,6 +18,39 @@ var foreign_curr = ""; // needs to be in str, max len(3)
 var UI = require('ui');
 var Vector2 = require('vector2');
 var tertiaryText = require('./tertiaryText.js');
+var Ajax = require('ajax');
+
+var options = {
+  enableHighAccuracy: true,
+  maximumAge: 10000,
+  timeout: 10000
+};
+
+// Request current position
+navigator.geolocation.getCurrentPosition(success, error, options);
+
+function error(err) {
+  if(err.code == err.PERMISSION_DENIED) {
+    console.log('Location access was denied by the user.');
+  } else {
+    console.log('location error (' + err.code + '): ' + err.message);
+  }
+};
+
+// An ID to store to later clear the watch
+var watchId, lat, lon;
+
+// Get location updates
+watchId = navigator.geolocation.watchPosition(success, error, options);
+
+function success(pos) {
+  console.log('Location changed!');
+  console.log('lat= ' + pos.coords.latitude + ' lon= ' + pos.coords.longitude);
+  lat = pos.coords.latitude;
+  lon = pos.coords.longitude;
+};
+
+/* ... */
 
 /** var screen1 = new UI.Card({
   title: '    Pubble',
@@ -98,7 +134,7 @@ var box2 = new UI.Text({
   position: new Vector2(0, 40),
   size: new Vector2(width, 30), 
   backgroundColor: 'black',
-  text: 'Restaurant 1 Name',
+  text: restaurant1,
   font: 'GOTHIC_18',
   color: 'white',
   textAlign: 'center',
@@ -146,13 +182,6 @@ var box6 = new UI.Text ({
   textOverflow: 'wrap',
 });
 
-screen3.add(box1);
-screen3.add(image1);
-screen3.add(box2);
-screen3.add(box3);
-screen3.add(box4);
-screen3.add(box5);
-screen3.add(box6);
 //screen3.show();
 
 // next screen
@@ -178,7 +207,7 @@ var box2 = new UI.Text({
   position: new Vector2(0, 40),
   size: new Vector2(width, 30), 
   backgroundColor: 'black',
-  text: 'Restaurant 2 Name', // res 2 name
+  text: restaurant2, // res 2 name
   font: 'GOTHIC_18',
   color: 'white',
   textAlign: 'center',
@@ -226,13 +255,6 @@ var box6 = new UI.Text ({
   textOverflow: 'wrap',
 });
 
-screen4.add(box1);
-screen4.add(image1);
-screen4.add(box2);
-screen4.add(box3);
-screen4.add(box4);
-screen4.add(box5);
-screen4.add(box6);
 //screen4.show();
 
 // proceeding screen
@@ -258,7 +280,7 @@ var box2 = new UI.Text({
   position: new Vector2(0, 40),
   size: new Vector2(width, 30), 
   backgroundColor: 'black',
-  text: 'Restaurant 3 Name',
+  text: restaurant3,
   font: 'GOTHIC_18',
   color: 'white',
   textAlign: 'center',
@@ -319,30 +341,89 @@ screen1.show();
 
 setTimeout(function() {
   tertiaryText('Home Currency:', function() {
-    screen3.show();
-//     if (inputtedText.value.length === 3) {
-//       console.log('HELLO?');
-//         screen3.show();
-//     }
-//     console.log(inputtedText);
+  var method = 'POST';
+  var url = 'http://af6750e4.ngrok.io/info-exchange';
+  var iso = '';
+
+  Ajax({
+    url: url,
+    method: method,
+    type: 'json',
+    data: {lat: lat,
+           lon: lon,
+           iso: iso}
+  },
+    function(data) {
+      console.log('Received!');
+      console.log(JSON.stringify(data));
+      
+      restaurant1 = data[0].top1Restaurant;
+      restaurant2 = data[1].top1Restaurant;
+      restaurant3 = data[2].top1Restaurant;
+      price1 = data[0].top1Price;
+      price2 = data[1].top2Price;
+      price3 = data[2].top3Price;
+      rating1 = data[0].top1Rating;
+      rating2 = data[1].top2Rating;
+      rating3 = data[2].top3Rating;
+      screen3.add(box1);
+      screen3.add(image1);
+      screen3.add(box2);
+      screen3.add(box3);
+      screen3.add(box4);
+      screen3.add(box5);
+      screen3.add(box6);
+      screen3.show();
+    },
+    function(error) {
+      console.log('Error parsing JSON response!');
+    }
+  );
+    
   });
   screen1.hide();  
 }, 4000);
 
-//screen3.show();
-
 screen3.on('click','down',function(){
+  screen4.add(box1);
+  screen4.add(image1);
+  screen4.add(box2);
+  screen4.add(box3);
+  screen4.add(box4);
+  screen4.add(box5);
+  screen4.add(box6);
   screen4.show();
 });
 
 screen4.on('click','down',function(){
+  screen5.add(box1);
+  screen5.add(image1);
+  screen5.add(box2);
+  screen5.add(box3);
+  screen5.add(box4);
+  screen5.add(box5);
+  screen5.add(box6);
   screen5.show();
 });
 
 screen4.on('click', 'up', function(){
+  screen3.add(box1);
+  screen3.add(image1);
+  screen3.add(box2);
+  screen3.add(box3);
+  screen3.add(box4);
+  screen3.add(box5);
+  screen3.add(box6);
   screen3.show();
 });
 
 screen5.on('click', 'up', function(){
+  screen5.add(box1);
+  screen5.add(image1);
+  screen5.add(box2);
+  screen5.add(box3);
+  screen5.add(box4);
+  screen5.add(box5);
+  screen5.add(box6);
   screen4.show();
 });
