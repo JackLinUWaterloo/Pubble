@@ -7,22 +7,22 @@ var get = 'GET';
 // Zomato variables
 var userKey = '46737798fd81f8e4919216ef9d61aa84';
 var url = 'https://developers.zomato.com/api/v2.1/';
-var q = 'waterloo';
+var q = '';
 var query = '';
 var lat = '';
 var lon = '';
-var city_id = '89';
-var count = '';
+var city_id = '';
+var count = '3';
 var entity_id = '';
 var entity_type = ''; // this must be city, subzone, zone, landmark, metro, group
-var res_id = '16782899';
+var res_id = '';
 var start = '';
 var radius = '';
 var cuisines = '';
 var establishment_type = '';
 var collection_id = '';
 var category = '';
-var sort = ''; // this must be cost, rating, or real_distance
+var sort = 'rating'; // this must be cost, rating, or real_distance
 var order = '' // this must be asc, desc
 
 // XE variables
@@ -33,8 +33,12 @@ var auth = "Basic " + new Buffer(xeAccId + ":" + xeApiKey).toString("base64");
 var isoFrom = 'CAD';
 var isoTo = 'USD';
 var amount = '110.23';
+var getCountryUrl = 'http://ws.geonames.org/';
+var getCountryISOurl = 'https://restcountries.eu/rest/v1/alpha/';
 
 var app = express();
+
+var lat, lon, originalCurrency, converToCurrency, countryCode, top1Price, top2Price, top3Price, top1Restaurant, top2Restaurant, top3Restaurant;
 
 var getRestaurantCategories = function(callback) {
 	request({
@@ -311,13 +315,13 @@ var getXEconvertFrom = function(callback) {
 		method: get,
 		url: xeUrl + 'convert_from.json',
 		headers: {
-			authorization: auth
-        },
-        qs: {
-        	from: isoFrom,
-            to: isoTo,
-            amount: amount
-        }
+      authorization: auth
+    },
+    qs: {
+      from: converToCurrency,
+      to: originalCurrency,
+      amount: amount
+    }
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
@@ -332,6 +336,15 @@ var getXEconvertTo = function(callback) {
 		method: get,
 		url: xeUrl + 'convert_to.json',
 		headers: {
+<<<<<<< HEAD
+      authorization: auth
+    },
+    qs: {
+      to: converToCurrency,
+      from: originalCurrency,
+      amount: amount
+    }
+=======
 			authorization: auth
         },
         qs: {
@@ -339,6 +352,7 @@ var getXEconvertTo = function(callback) {
         	from: isoFrom,
         	amount: amount
         }
+>>>>>>> 22976f633011bd7d33849cf595b4f1eb0758b732
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
@@ -347,6 +361,38 @@ var getXEconvertTo = function(callback) {
 		}
 	});
 };
+
+var getCountryName = function(lat, lon, callback) {
+	request({
+		method: get,
+		url: getCountryUrl + 'countryCode',
+		qs: {
+			lat: lat,
+			lng: lon,
+			username: 'demo',
+			type: 'json'
+		}
+	}, function(error, response, body) {
+		if(error) {
+			console.error('ERROR: ' + error);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
+	});
+};
+
+var getCountryISO = function(countryCode, callback) {
+	request({
+		method: get,
+		url: getCountryISOurl + countryCode
+	}, function(error, response, body) {
+		if(error) {
+			console.error('ERROR: ' + error);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
+	});
+}
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -445,6 +491,41 @@ app.get('/convert-to', function(req, res) {
 	getXEconvertTo(function(body){
 		res.send(body);
 	});
+});
+
+//API endpoint for Pebble watch
+app.post('/info-exchange', function(req, res) {
+	// originalCurrency = req.body.iso;
+	originalCurrency = 'USD';
+	lat = req.body.lat;
+	lon = req.body.lon;
+
+	console.log('Request Received');
+
+	getCountryName(lat, lon, function(body) {
+		body = JSON.parse(body);
+		countryCode = (body.countryCode);
+		getCountryISO(countryCode, function(body) {
+			body = JSON.parse(body);
+			converToCurrency = body.currencies[0];
+			getRestaurantSearch(function(body) {
+				body = JSON.parse(body);
+				console.log(body);
+				top1Restaurant = body.restaurants[0].restaurant.name;
+				top2Restaurant = body.restaurants[1].restaurant.name;
+				top3Restaurant = body.restaurants[2].restaurant.name;
+				console.log(top1Restaurant);
+				console.log(top2Restaurant);
+				console.log(top3Restaurant);
+				getXEconvertFrom(function(body) {
+					console.log(body);
+				});
+			});
+		});
+	});
+
+
+	// converToCurrency =
 });
 
 app.listen(3000, function() {
