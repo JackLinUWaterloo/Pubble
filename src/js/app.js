@@ -1,3 +1,4 @@
+// Pebble.js
 
 // GETTING DATA FROM PHONE 
 
@@ -6,32 +7,47 @@ var rating = 0; // needs to be a float
 var foreign_curr = ""; // needs to be in str, max len(3)
 
 // SCREEN LAYOUTS
-
 var UI = require('ui');
 var Vector2 = require('vector2');
+var tertiaryText = require('./tertiaryText.js');
 
-/** var screen1 = new UI.Card({
+  var screen1 = new UI.Card({
   title: '    Pubble',
   icon: 'images/menu_icon.png',
   body: '            Home',
   bodyColor: '#9a0036', // Hex colors
   scrollable: true
-  
 });
+
 screen1.show();
-**/
 
 // this is for screen 2
-  
-var screen2 = new UI.Window();
-var size = screen2.size();
+var screen2 = new UI.Card ({ 
+});
+
+function limitLength(text) {
+   var maxChars = 3;
+   if (text.length === maxChars) {
+     screen2.show();
+     console.log('text');
+   } else if (text.length > maxChars) {
+    console.log('Try again. Enter valid currency (3 letters max)');
+   }
+}
+
+var printOutput = tertiaryText('Home Currency:', function(inputtedText) {
+  //limitLength(inputtedText);
+});
+
+var screen3 = new UI.Window();
+var size = screen3.size();
 var width = size.x;
 var height = size.y;
 
 var image1 = new UI.Image({
   position: new Vector2(0, 5),
   size: new Vector2(width, 30),
-  image: 'images/letterp.png'
+  image: 'images/mario.png'
 });
 
 var box1 = new UI.Text({
@@ -95,15 +111,13 @@ var box6 = new UI.Text ({
   textOverflow: 'wrap',
 });
 
-screen2.add(box1);
-screen2.add(image1);
-screen2.add(box2);
-screen2.add(box3);
-screen2.add(box4);
-screen2.add(box5);
-screen2.add(box6);
-screen2.show();
-
-
+screen3.add(box1);
+screen3.add(image1);
+screen3.add(box2);
+screen3.add(box3);
+screen3.add(box4);
+screen3.add(box5);
+screen3.add(box6);
+screen3.show();
 
 
