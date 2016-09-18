@@ -29,41 +29,53 @@ var width = size.x;
 var height = size.y;
 
 var image1 = new UI.Image({
-  position: new Vector2(0,10),
-  size: new Vector2(width, height/3),
-  image: 'images/mario.png'
+  position: new Vector2(0, 5),
+  size: new Vector2(width, 30),
+  image: 'images/letterp.png'
 });
 
 var box1 = new UI.Text({
   position: new Vector2(0, 0),
-  size: new Vector2(width, height/3 + 15), 
+  size: new Vector2(width, height/3 - 15), 
   backgroundColor: 'white',
   color: 'black',
   textAlign: 'center',
   textOverflow: 'wrap',
 });
+
 var box2 = new UI.Text({
+  position: new Vector2(0, 40),
+  size: new Vector2(width, 30), 
+  backgroundColor: 'black',
+  text: 'Restaurant Name',
+  font: 'GOTHIC_18',
+  color: 'white',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+var box3 = new UI.Text({
   position: new Vector2(0, 75),
   size: new Vector2(width/2, height/3),
   backgroundColor: 'white',
-  text: 'PRICE',
+  text: 'PRICE:',
   color: 'black',
   textAlign: 'center',
   textOverflow: 'wrap',
   
 });
 
-var box3 = new UI.Text({
+var box4 = new UI.Text({
   position: new Vector2(0, 115),
   size: new Vector2(width/2, height/3 + 10),
   backgroundColor: 'white',
-  text: 'RATING',
+  text: 'RATING:',
   color: 'black',
   textAlign: 'center',
   textOverflow: 'wrap',
 });
 
-var box4 = new UI.Text ({
+var box5 = new UI.Text ({
   position: new Vector2(width/2, 75),
   size: new Vector2(width/2, height/3),
   backgroundColor: 'white',
@@ -73,7 +85,7 @@ var box4 = new UI.Text ({
   textOverflow: 'wrap',
 });
 
-var box5 = new UI.Text ({
+var box6 = new UI.Text ({
   position: new Vector2(width/2, 115),
   size: new Vector2(width/2, height/3 + 10),
   backgroundColor: 'white',
@@ -89,8 +101,8 @@ screen2.add(box2);
 screen2.add(box3);
 screen2.add(box4);
 screen2.add(box5);
+screen2.add(box6);
 screen2.show();
-
 
 
 

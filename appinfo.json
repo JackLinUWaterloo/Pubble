@@ -30,8 +30,8 @@
                 "type": "font"
             },
             {
-                "file": "images/mario.png",
-                "name": "IMAGES_MARIO_PNG",
+                "file": "images/letterp.png",
+                "name": "IMAGES_LETTERP_PNG",
                 "type": "png"
             }
         ]
