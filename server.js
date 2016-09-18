@@ -2,10 +2,11 @@ var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 
-var userKey = '46737798fd81f8e4919216ef9d61aa84';
 var get = 'GET';
-var url = 'https://developers.zomato.com/api/v2.1/';
 
+//Zomato variables
+var userKey = '46737798fd81f8e4919216ef9d61aa84';
+var url = 'https://developers.zomato.com/api/v2.1/';
 var q = 'waterloo';
 var query = '';
 var lat = '';
@@ -24,12 +25,18 @@ var category = '';
 var sort = ''; // this must be cost, rating, or real_distance
 var order = '' // this must be asc, desc
 
+//XE variables
+var xeUrl = 'https://xecdapi.xe.com/v1/';
+var xeAccId = 'hackthenorth057'
+var xeApiKey = 'Waterloo25936';
+var auth = "Basic " + new Buffer(xeAccId + ":" + xeApiKey).toString("base64");
+var isoFrom = 'CAD';
+var isoTo = 'USD';
+var amount = '110.23';
+
 var app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.get('/categories', function(req, res) {
+var getRestaurantCategories = function(callback) {
 	request({
 		method: get,
 		url: url + 'categories',
@@ -37,13 +44,13 @@ app.get('/categories', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+	 	} else if(typeof callback === 'function') {
+			callback(body);
+		}
 	});
-});
+};
 
-app.get('/cities', function(req, res) {
+var getRestaurantCities = function(callback) {
 	request({
 		method: get,
 		url: url + 'cities',
@@ -59,13 +66,13 @@ app.get('/cities', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+		} else if(typeof callback === 'function') {
+ 			callback(body);
+ 		}
 	});
-});
+};
 
-app.get('/collections', function(req, res) {
+var getRestaurantCollections = function(callback) {
 	request({
 		method: get,
 		url: url + 'collections',
@@ -78,13 +85,13 @@ app.get('/collections', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+		} else if(typeof callback === 'function') {
+ 			callback(body);
+ 		}
 	});
-});
+};
 
-app.get('/cuisines', function(req, res) {
+var getRestaurantCuisines = function(callback) {
 	request({
 		method: get,
 		url: url + 'cuisines',
@@ -100,13 +107,13 @@ app.get('/cuisines', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+	 	} else if(typeof callback === 'function') {
+			callback(body);
+		}
 	});
-});
+};
 
-app.get('/establishments', function(req, res) {
+var getRestaurantEstablishments = function(callback) {
 	request({
 		method: get,
 		url: url + 'establishments',
@@ -121,13 +128,13 @@ app.get('/establishments', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+	  } else if(typeof callback === 'function') {
+			callback(body);
+		}
 	});
-});
+};
 
-app.get('/geocode', function(req, res) {
+var getRestaurantGeoCode = function(callback) {
 	request({
 		method: get,
 		url: url + 'geocode',
@@ -142,13 +149,13 @@ app.get('/geocode', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
 	});
-});
+};
 
-app.get('/location_details', function(req, res) {
+var getRestaurantLocationDetails = function(callback) {
 	request({
 		method: get,
 		url: url + 'location_details',
@@ -162,13 +169,13 @@ app.get('/location_details', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
 	});
-});
+};
 
-app.get('/locations', function(req, res) {
+var getRestaurantLocation = function(callback) {
 	request({
 		method: get,
 		url: url + 'locations',
@@ -184,13 +191,13 @@ app.get('/locations', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
 	});
-});
+};
 
-app.get('/dailymenu', function(req, res) {
+var getRestaurantDailyMenu = function(callback) {
 	request({
 		method: get,
 		url: url + 'dailymenu',
@@ -203,13 +210,13 @@ app.get('/dailymenu', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
 	});
-});
+};
 
-app.get('/restaurant', function(req, res) {
+var getRestaurant = function(callback) {
 	request({
 		method: get,
 		url: url + 'restaurant',
@@ -222,13 +229,13 @@ app.get('/restaurant', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
 	});
-});
+};
 
-app.get('/reviews', function(req, res) {
+var getRestaurantReview = function(callback) {
 	request({
 		method: get,
 		url: url + 'reviews',
@@ -243,13 +250,13 @@ app.get('/reviews', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
-
-		 res.send(body);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
 	});
-});
+};
 
-app.get('/search', function(req, res) {
+var getRestaurantSearch = function(callback) {
 	request({
 		method: get,
 		url: url + 'search',
@@ -276,9 +283,169 @@ app.get('/search', function(req, res) {
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
-		 }
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
+	});
+};
 
-		 res.send(body);
+//XE functions
+var getXEcurrenciesList = function(callback) {
+	request({
+		method: get,
+		url: xeUrl + 'currencies.json',
+		headers: {
+      authorization: auth
+    },
+    qs: {
+    }
+	}, function(error, response, body) {
+		if(error) {
+			 console.error('ERROR: ' + error);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
+	});
+};
+
+var getXEconvertFrom = function(callback) {
+	request({
+		method: get,
+		url: xeUrl + 'convert_from.json',
+		headers: {
+      authorization: auth
+    },
+    qs: {
+      from: isoFrom,
+      to: isoTo,
+      amount: amount
+    }
+	}, function(error, response, body) {
+		if(error) {
+			 console.error('ERROR: ' + error);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
+	});
+};
+
+var getXEconvertTo = function(callback) {
+	request({
+		method: get,
+		url: xeUrl + 'convert_to.json',
+		headers: {
+      authorization: auth
+    },
+    qs: {
+      to: isoTo,
+      from: isoFrom,
+      amount: amount
+    }
+	}, function(error, response, body) {
+		if(error) {
+			 console.error('ERROR: ' + error);
+		} else if(typeof callback === 'function') {
+			callback(body);
+		}
+	});
+};
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.get('/', function(req, res) {
+	res.send('Hello World!');
+});
+
+//Zomato API endpoints
+app.get('/categories', function(req, res) {
+	getRestaurantCategories(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/cities', function(req, res) {
+	getRestaurantCities(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/collections', function(req, res) {
+	getRestaurantCollections(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/cuisines', function(req, res) {
+	getRestaurantCuisines(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/establishments', function(req, res) {
+	getRestaurantEstablishments(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/geocode', function(req, res) {
+	getRestaurantGeoCode(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/location_details', function(req, res) {
+	getRestaurantLocationDetails(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/locations', function(req, res) {
+	getRestaurantLocation(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/dailymenu', function(req, res) {
+	getRestaurantDailyMenu(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/restaurant', function(req, res) {
+	getRestaurant(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/reviews', function(req, res) {
+	getRestaurantReview(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/search', function(req, res) {
+	getRestaurantSearch(function(body){
+		res.send(body);
+	});
+});
+
+//XE API endpoints
+app.get('/currencies-list', function(req, res) {
+	getXEcurrenciesList(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/convert-from', function(req, res) {
+	getXEconvertFrom(function(body){
+		res.send(body);
+	});
+});
+
+app.get('/convert-to', function(req, res) {
+	getXEconvertTo(function(body){
+		res.send(body);
 	});
 });
 
