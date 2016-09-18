@@ -1,8 +1,11 @@
-/**
- * Welcome to Pebble.js!
- *
- * This is where you write your app.
- */
+
+// GETTING DATA FROM PHONE 
+
+var price = 0; // needs to be integer
+var rating = 0; // needs to be a float
+var foreign_curr = ""; // needs to be in str, max len(3)
+
+// SCREEN LAYOUTS
 
 var UI = require('ui');
 var Vector2 = require('vector2');
@@ -64,7 +67,7 @@ var box4 = new UI.Text ({
   position: new Vector2(width/2, 75),
   size: new Vector2(width/2, height/3),
   backgroundColor: 'white',
-  text: '30 USD',
+  text: price.toString() + foreign_curr,
   color: 'black',
   textAlign: 'center',
   textOverflow: 'wrap',
@@ -74,7 +77,7 @@ var box5 = new UI.Text ({
   position: new Vector2(width/2, 115),
   size: new Vector2(width/2, height/3 + 10),
   backgroundColor: 'white',
-  text: '4.3 STAR',
+  text: rating.toString() + ' STAR',
   color: 'black',
   textAlign: 'center',
   textOverflow: 'wrap',
@@ -87,3 +90,8 @@ screen2.add(box3);
 screen2.add(box4);
 screen2.add(box5);
 screen2.show();
+
+
+
+
+
