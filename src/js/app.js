@@ -5,14 +5,15 @@
  */
 
 var UI = require('ui');
-var Vector2 = require('vector2');
 
 var main = new UI.Card({
   title: '    Pubble',
   icon: 'images/menu_icon.png',
-  body: 'Enter Home Currency:',
+  body: '            Home',
   subtitleColor: 'indigo', // Named colors
-  bodyColor: '#9a0036' // Hex colors
+  bodyColor: '#9a0036', // Hex colors
+  scrollable: true
+  
 });
 
 main.show();
