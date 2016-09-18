@@ -11,15 +11,47 @@ var UI = require('ui');
 var Vector2 = require('vector2');
 var tertiaryText = require('./tertiaryText.js');
 
-  var screen1 = new UI.Card({
+/** var screen1 = new UI.Card({
   title: '    Pubble',
   icon: 'images/menu_icon.png',
   body: '            Home',
   bodyColor: '#9a0036', // Hex colors
   scrollable: true
 });
+**/
 
+// screen measurements
+var screen3 = new UI.Window();
+var size = screen3.size();
+var width = size.x;
+var height = size.y;
+
+// screen 1
+var screen1 = new UI.Window();
+
+
+
+var box0 = new UI.Text({
+  position: new Vector2(0, 0),
+  font: 'BITHAM_30_BLACK',
+  size: new Vector2(width, height), 
+  backgroundColor: 'white',
+  color: 'black',
+  text: 'PUBBLE'
+});
+
+
+var image2 = new UI.Image({
+  position: new Vector2(0, 30),
+  size: new Vector2(width, height),
+  image: 'images/rice.png'
+});
+
+
+screen1.add(box0);
+screen1.add(image2);
 screen1.show();
+
 
 // this is for screen 2
 var screen2 = new UI.Card ({ 
@@ -40,9 +72,6 @@ var printOutput = tertiaryText('Home Currency:', function(inputtedText) {
 });
 
 var screen3 = new UI.Window();
-var size = screen3.size();
-var width = size.x;
-var height = size.y;
 
 var image1 = new UI.Image({
   position: new Vector2(0, 5),

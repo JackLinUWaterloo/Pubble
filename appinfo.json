@@ -30,6 +30,11 @@
                 "type": "font"
             },
             {
+                "file": "images/rice.png",
+                "name": "IMAGES_RICE_PNG",
+                "type": "png"
+            },
+            {
                 "file": "images/letterp.png",
                 "name": "IMAGES_LETTERP_PNG",
                 "type": "png"
