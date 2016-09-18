@@ -2,9 +2,9 @@ var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 
-var get = 'GET';
+var method = 'GET';
 
-//Zomato variables
+// Zomato variables
 var userKey = '46737798fd81f8e4919216ef9d61aa84';
 var url = 'https://developers.zomato.com/api/v2.1/';
 var q = 'waterloo';
@@ -25,7 +25,7 @@ var category = '';
 var sort = ''; // this must be cost, rating, or real_distance
 var order = '' // this must be asc, desc
 
-//XE variables
+// XE variables
 var xeUrl = 'https://xecdapi.xe.com/v1/';
 var xeAccId = 'hackthenorth057'
 var xeApiKey = 'Waterloo25936';
@@ -38,7 +38,7 @@ var app = express();
 
 var getRestaurantCategories = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'categories',
 		headers: { 'user-key': userKey }
 	}, function(error, response, body) {
@@ -52,7 +52,7 @@ var getRestaurantCategories = function(callback) {
 
 var getRestaurantCities = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'cities',
 		headers: {
 			'user-key': userKey
@@ -74,7 +74,7 @@ var getRestaurantCities = function(callback) {
 
 var getRestaurantCollections = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'collections',
 		headers: {
 			'user-key': userKey
@@ -93,7 +93,7 @@ var getRestaurantCollections = function(callback) {
 
 var getRestaurantCuisines = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'cuisines',
 		headers: {
 			'user-key': userKey
@@ -115,7 +115,7 @@ var getRestaurantCuisines = function(callback) {
 
 var getRestaurantEstablishments = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'establishments',
 		headers: {
 			'user-key': userKey
@@ -136,7 +136,7 @@ var getRestaurantEstablishments = function(callback) {
 
 var getRestaurantGeoCode = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'geocode',
 		headers: {
 			'user-key': userKey
@@ -157,7 +157,7 @@ var getRestaurantGeoCode = function(callback) {
 
 var getRestaurantLocationDetails = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'location_details',
 		headers: {
 			'user-key': userKey
@@ -177,7 +177,7 @@ var getRestaurantLocationDetails = function(callback) {
 
 var getRestaurantLocation = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'locations',
 		headers: {
 			'user-key': userKey
@@ -199,7 +199,7 @@ var getRestaurantLocation = function(callback) {
 
 var getRestaurantDailyMenu = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'dailymenu',
 		headers: {
 			'user-key': userKey
@@ -218,7 +218,7 @@ var getRestaurantDailyMenu = function(callback) {
 
 var getRestaurant = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'restaurant',
 		headers: {
 			'user-key': userKey
@@ -237,7 +237,7 @@ var getRestaurant = function(callback) {
 
 var getRestaurantReview = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'reviews',
 		headers: {
 			'user-key': userKey
@@ -258,7 +258,7 @@ var getRestaurantReview = function(callback) {
 
 var getRestaurantSearch = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: url + 'search',
 		headers: {
 			'user-key': userKey
@@ -278,7 +278,6 @@ var getRestaurantSearch = function(callback) {
 			category: category,
 			sort: sort,
 			order: order,
-
 		}
 	}, function(error, response, body) {
 		if(error) {
@@ -289,19 +288,18 @@ var getRestaurantSearch = function(callback) {
 	});
 };
 
-//XE functions
+// XE functions
 var getXEcurrenciesList = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: xeUrl + 'currencies.json',
 		headers: {
-      authorization: auth
-    },
-    qs: {
-    }
+          authorization: auth
+        },
+        qs: {}
 	}, function(error, response, body) {
-		if(error) {
-			 console.error('ERROR: ' + error);
+	    if(error) {
+			console.error('ERROR: ' + error);
 		} else if(typeof callback === 'function') {
 			callback(body);
 		}
@@ -310,16 +308,16 @@ var getXEcurrenciesList = function(callback) {
 
 var getXEconvertFrom = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: xeUrl + 'convert_from.json',
 		headers: {
-      authorization: auth
-    },
-    qs: {
-      from: isoFrom,
-      to: isoTo,
-      amount: amount
-    }
+			authorization: auth
+        },
+        qs: {
+        	from: isoFrom,
+            to: isoTo,
+            amount: amount
+        }
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
@@ -331,16 +329,16 @@ var getXEconvertFrom = function(callback) {
 
 var getXEconvertTo = function(callback) {
 	request({
-		method: get,
+		method: method,
 		url: xeUrl + 'convert_to.json',
 		headers: {
-      authorization: auth
-    },
-    qs: {
-      to: isoTo,
-      from: isoFrom,
-      amount: amount
-    }
+			authorization: auth
+        },
+        qs: {
+        	to: isoTo,
+        	from: isoFrom,
+        	amount: amount
+        }
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
@@ -357,7 +355,7 @@ app.get('/', function(req, res) {
 	res.send('Hello World!');
 });
 
-//Zomato API endpoints
+// Zomato API endpoints
 app.get('/categories', function(req, res) {
 	getRestaurantCategories(function(body){
 		res.send(body);
@@ -430,7 +428,7 @@ app.get('/search', function(req, res) {
 	});
 });
 
-//XE API endpoints
+// XE API endpoints
 app.get('/currencies-list', function(req, res) {
 	getXEcurrenciesList(function(body){
 		res.send(body);
