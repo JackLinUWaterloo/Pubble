@@ -39,6 +39,7 @@ var getCountryISOurl = 'https://restcountries.eu/rest/v1/alpha/';
 var app = express();
 
 var lat, lon, originalCurrency, converToCurrency, countryCode, top1Price, top2Price, top3Price, top1Restaurant, top2Restaurant, top3Restaurant;
+var top1Rating, top2Rating, top3Rating, top1ConvertedPrice, top2ConvertedPrice, top3ConvertedPrice;
 
 var getRestaurantCategories = function(callback) {
 	request({
@@ -201,7 +202,7 @@ var getRestaurantLocation = function(callback) {
 	});
 };
 
-var getRestaurantDailyMenu = function(callback) {
+var getRestaurantDailyMenu = function(res_id, callback) {
 	request({
 		method: get,
 		url: url + 'dailymenu',
@@ -310,7 +311,7 @@ var getXEcurrenciesList = function(callback) {
 	});
 };
 
-var getXEconvertFrom = function(callback) {
+var getXEconvertFrom = function(amount, callback) {
 	request({
 		method: get,
 		url: xeUrl + 'convert_from.json',
@@ -359,7 +360,7 @@ var getCountryName = function(lat, lon, callback) {
 		qs: {
 			lat: lat,
 			lng: lon,
-			username: 'demo',
+			username: 'jacknil',
 			type: 'json'
 		}
 	}, function(error, response, body) {
@@ -495,20 +496,39 @@ app.post('/info-exchange', function(req, res) {
 	getCountryName(lat, lon, function(body) {
 		body = JSON.parse(body);
 		countryCode = (body.countryCode);
+		console.log(countryCode);
 		getCountryISO(countryCode, function(body) {
 			body = JSON.parse(body);
 			converToCurrency = body.currencies[0];
+			console.log(converToCurrency);
 			getRestaurantSearch(function(body) {
 				body = JSON.parse(body);
-				console.log(body);
 				top1Restaurant = body.restaurants[0].restaurant.name;
 				top2Restaurant = body.restaurants[1].restaurant.name;
 				top3Restaurant = body.restaurants[2].restaurant.name;
-				console.log(top1Restaurant);
-				console.log(top2Restaurant);
-				console.log(top3Restaurant);
-				getXEconvertFrom(function(body) {
-					console.log(body);
+				top1Rating = body.restaurants[0].restaurant.user_rating.aggregate_rating + '/5';
+				top2Rating = body.restaurants[1].restaurant.user_rating.aggregate_rating + '/5';
+				top3Rating = body.restaurants[2].restaurant.user_rating.aggregate_rating + '/5';
+				top1Price = body.restaurants[0].restaurant.average_cost_for_two/2;
+				top2Price = body.restaurants[1].restaurant.average_cost_for_two/2;
+				top3Price = body.restaurants[2].restaurant.average_cost_for_two/2;
+				getXEconvertFrom(top1Price, function(body) {
+					body = JSON.parse(body);
+					top1ConvertedPrice = body.to[0].mid;
+					getXEconvertFrom(top2Price, function(body) {
+						body = JSON.parse(body);
+						top2ConvertedPrice = body.to[0].mid;
+						getXEconvertFrom(top3Price, function(body) {
+							body = JSON.parse(body);
+							top3ConvertedPrice = body.to[0].mid;
+							var returnObject = [
+								{'top1Restaurant': top1Restaurant, 'top1Price': top1Price, 'top1Rating': top1Rating},
+								{'top2Restaurant': top2Restaurant, 'top2Price': top2Price, 'top2Rating': top2Rating},
+								{'top3Restaurant': top3Restaurant, 'top3Price': top3Price, 'top3Rating': top3Rating}
+							];
+							res.send(returnObject);
+						});
+					});
 				});
 			});
 		});
