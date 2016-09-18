@@ -2,8 +2,13 @@
 
 // GETTING DATA FROM PHONE 
 
-var price = 0; // needs to be integer
-var rating = 0; // needs to be a float
+var price1 = 0; // needs to be integer
+var price2 = 0;
+var price3 = 0;
+var rating1 = 0; // needs to be a float
+var rating2 = 0;
+var rating3 = 0;
+
 var foreign_curr = ""; // needs to be in str, max len(3)
 
 // SCREEN LAYOUTS
@@ -92,7 +97,7 @@ var box2 = new UI.Text({
   position: new Vector2(0, 40),
   size: new Vector2(width, 30), 
   backgroundColor: 'black',
-  text: 'Restaurant Name',
+  text: 'Restaurant 1 Name',
   font: 'GOTHIC_18',
   color: 'white',
   textAlign: 'center',
@@ -124,7 +129,7 @@ var box5 = new UI.Text ({
   position: new Vector2(width/2, 75),
   size: new Vector2(width/2, height/3),
   backgroundColor: 'white',
-  text: price.toString() + foreign_curr,
+  text: price1.toString() + foreign_curr,
   color: 'black',
   textAlign: 'center',
   textOverflow: 'wrap',
@@ -134,7 +139,7 @@ var box6 = new UI.Text ({
   position: new Vector2(width/2, 115),
   size: new Vector2(width/2, height/3 + 10),
   backgroundColor: 'white',
-  text: rating.toString() + ' STAR',
+  text: rating1.toString() + ' STAR',
   color: 'black',
   textAlign: 'center',
   textOverflow: 'wrap',
@@ -148,5 +153,165 @@ screen3.add(box4);
 screen3.add(box5);
 screen3.add(box6);
 screen3.show();
+
+// next screen
+
+var screen4 = new UI.Window();
+
+var image1 = new UI.Image({
+  position: new Vector2(0, 5),
+  size: new Vector2(width, 30),
+  image: 'images/letterp.png'
+});
+
+var box1 = new UI.Text({
+  position: new Vector2(0, 0),
+  size: new Vector2(width, height/3 - 15), 
+  backgroundColor: 'white',
+  color: 'black',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+var box2 = new UI.Text({
+  position: new Vector2(0, 40),
+  size: new Vector2(width, 30), 
+  backgroundColor: 'black',
+  text: 'Restaurant 2 Name', // res 2 name
+  font: 'GOTHIC_18',
+  color: 'white',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+var box3 = new UI.Text({
+  position: new Vector2(0, 75),
+  size: new Vector2(width/2, height/3),
+  backgroundColor: 'white',
+  text: 'PRICE:',
+  color: 'black',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+  
+});
+
+var box4 = new UI.Text({
+  position: new Vector2(0, 115),
+  size: new Vector2(width/2, height/3 + 10),
+  backgroundColor: 'white',
+  text: 'RATING:',
+  color: 'black',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+var box5 = new UI.Text ({
+  position: new Vector2(width/2, 75),
+  size: new Vector2(width/2, height/3),
+  backgroundColor: 'white',
+  text: price2.toString() + foreign_curr,
+  color: 'black',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+var box6 = new UI.Text ({
+  position: new Vector2(width/2, 115),
+  size: new Vector2(width/2, height/3 + 10),
+  backgroundColor: 'white',
+  text: rating2.toString() + ' STAR',
+  color: 'black',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+screen4.add(box1);
+screen4.add(image1);
+screen4.add(box2);
+screen4.add(box3);
+screen4.add(box4);
+screen4.add(box5);
+screen4.add(box6);
+screen4.show();
+
+// proceeding screen
+
+var screen5 = new UI.Window();
+
+var image1 = new UI.Image({
+  position: new Vector2(0, 5),
+  size: new Vector2(width, 30),
+  image: 'images/letterp.png'
+});
+
+var box1 = new UI.Text({
+  position: new Vector2(0, 0),
+  size: new Vector2(width, height/3 - 15), 
+  backgroundColor: 'white',
+  color: 'black',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+var box2 = new UI.Text({
+  position: new Vector2(0, 40),
+  size: new Vector2(width, 30), 
+  backgroundColor: 'black',
+  text: 'Restaurant 3 Name',
+  font: 'GOTHIC_18',
+  color: 'white',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+var box3 = new UI.Text({
+  position: new Vector2(0, 75),
+  size: new Vector2(width/2, height/3),
+  backgroundColor: 'white',
+  text: 'PRICE:',
+  color: 'black',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+  
+});
+
+var box4 = new UI.Text({
+  position: new Vector2(0, 115),
+  size: new Vector2(width/2, height/3 + 10),
+  backgroundColor: 'white',
+  text: 'RATING:',
+  color: 'black',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+var box5 = new UI.Text ({
+  position: new Vector2(width/2, 75),
+  size: new Vector2(width/2, height/3),
+  backgroundColor: 'white',
+  text: price3.toString() + foreign_curr,
+  color: 'black',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+var box6 = new UI.Text ({
+  position: new Vector2(width/2, 115),
+  size: new Vector2(width/2, height/3 + 10),
+  backgroundColor: 'white',
+  text: rating3.toString() + ' STAR',
+  color: 'black',
+  textAlign: 'center',
+  textOverflow: 'wrap',
+});
+
+screen5.add(box1);
+screen5.add(image1);
+screen5.add(box2);
+screen5.add(box3);
+screen5.add(box4);
+screen5.add(box5);
+screen5.add(box6);
+screen5.show();
 
 
