@@ -47,7 +47,7 @@ var height = size.y;
 var image1 = new UI.Image({
   position: new Vector2(0, 5),
   size: new Vector2(width, 30),
-  image: 'images/mario.png'
+  image: 'images/letterp.png'
 });
 
 var box1 = new UI.Text({
