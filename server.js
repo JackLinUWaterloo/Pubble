@@ -336,7 +336,6 @@ var getXEconvertTo = function(callback) {
 		method: method,
 		url: xeUrl + 'convert_to.json',
 		headers: {
-<<<<<<< HEAD
       authorization: auth
     },
     qs: {
@@ -344,15 +343,6 @@ var getXEconvertTo = function(callback) {
       from: originalCurrency,
       amount: amount
     }
-=======
-			authorization: auth
-        },
-        qs: {
-        	to: isoTo,
-        	from: isoFrom,
-        	amount: amount
-        }
->>>>>>> 22976f633011bd7d33849cf595b4f1eb0758b732
 	}, function(error, response, body) {
 		if(error) {
 			 console.error('ERROR: ' + error);
